@@ -1,0 +1,31 @@
+{
+  "name": "canvasImageSwitch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --hot --inline --content-base --config webpack.config.js",
+    "pack": "webpack --mode development",
+    "build": "webpack --mode production",
+    "compile": "babel src -d lib"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/plugin-proposal-decorators": "^7.1.6",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/runtime": "^7.1.5",
+    "babel-loader": "^8.0.4",
+    "webpack": "^4.26.1",
+    "webpack-cli": "^3.1.2",
+    "core-js": "^2.6.9",
+    "jquery-touchswipe": "^1.6.19",
+    "@babel/cli": "^7.6.0",
+    "webpack-dev-server": "^3.8.0"
+  },
+  "dependencies": {}
+}
