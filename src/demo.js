@@ -4,6 +4,7 @@ import CanvasImgSwitch from "./canvasImgSwitch.js"
 let imgArr=["img/deer.png","img/fox.png","img/bear.png","img/giraffe.png","img/crow.png","img/sneakybird.png"];
 let canvasImgSwitch=new CanvasImgSwitch({
     id:"imgContainer",
+    retina:false,
     imgArr:imgArr
 });
 

@@ -23,7 +23,6 @@
     "webpack": "^4.26.1",
     "webpack-cli": "^3.1.2",
     "core-js": "^2.6.9",
-    "jquery-touchswipe": "^1.6.19",
     "@babel/cli": "^7.6.0",
     "webpack-dev-server": "^3.8.0"
   },

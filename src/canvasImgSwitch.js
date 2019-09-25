@@ -1,4 +1,4 @@
-const coefficientV = 2.5;
+const coefficientV = 2;
 
 function Particle(conf) {
     let seed1, seed2;
@@ -13,7 +13,7 @@ function Particle(conf) {
     //obj['vx'] = 6+seed1 * coefficientV;
     //obj['vy'] = 6+seed2 * coefficientV;
     obj['seed'] = Math.abs(seed2 - seed1) * coefficientV;
-    obj["vx"] = Math.abs(obj["dx"] - obj["x"]) / (32 * obj["seed"]);
+    obj["vx"] = Math.abs(obj["dx"] - obj["x"]) / (28 * obj["seed"]);
     obj["vy"] = Math.abs(obj["dy"] - obj["y"]) / (24 * obj["seed"]);
 
     return obj;
@@ -22,7 +22,7 @@ function Particle(conf) {
 function resetParticle(particle, conf) {
     particle["dx"] = conf["x"];
     particle["dy"] = conf["y"];
-    particle["vx"] = Math.abs(particle["dx"] - particle["x"]) / (32 * particle["seed"]);
+    particle["vx"] = Math.abs(particle["dx"] - particle["x"]) / (28 * particle["seed"]);
     particle["vy"] = Math.abs(particle["dy"] - particle["y"]) / (24 * particle["seed"]);
 }
 
@@ -42,7 +42,8 @@ export default class CanvasImgSwitch {
     constructor(conf) {
         if (!conf) conf = {};
         this.conf = {
-            id: conf.id || 'imgContainer'
+            id: conf.id || 'imgContainer',
+            retina: conf.retina || false
         };
         this.imgArr = conf.imgArr;
         this.canvas = document.querySelector("#" + this.conf.id);
@@ -51,7 +52,6 @@ export default class CanvasImgSwitch {
         this.underCanvas = {};
         this.particleArr = [];
         this.animateParticleArr = [];
-        this.rightPlaceParticleArr = [];
     }
 
     paintImg(src) {
@@ -72,9 +72,9 @@ export default class CanvasImgSwitch {
                 img.onload = function () {
                     let width = img.width;
                     let height = img.height;
-                    while ((width + height) > 2400) {
-                        width = width / 2;
-                        height = height / 2;
+                    if(_this.conf.retina){
+                        width*=2;
+                        height*=2;
                     }
                     underCanvas.width = _this.conf.width = width;
                     underCanvas.height = _this.conf.height = height;
@@ -93,7 +93,6 @@ export default class CanvasImgSwitch {
     constructImageDataArr() {
         let i, j, x, y, _this = this, imgData = _this.imgData;
         _this.imgDataArr = [];
-        let xg = Math.floor(imgData.width / 4), yg = Math.floor(imgData.height / 4);
         for (x = 0; x < imgData.width; x += 1) {
             for (y = 0; y < imgData.height; y += 1) {
                 j = (y * imgData.width + x) * 4;
@@ -109,10 +108,6 @@ export default class CanvasImgSwitch {
         }
         console.log(_this.imgDataArr.length);
         shuffle(_this.imgDataArr);
-        /*
-        while (_this.imgDataArr.length > 24000) {
-            _this.imgDataArr.splice(Math.floor(Math.random() * _this.imgDataArr.length), 10);
-        }*/
         let limit=24000;
         _this.imgDataArr.splice(limit,_this.imgDataArr.length-limit+1);
         imgData = null;
@@ -167,7 +162,7 @@ export default class CanvasImgSwitch {
         }
         shuffle(edgePoints);
         _this.imgDataArr=edgePoints;
-        let limit=40000;
+        let limit=30000;
         _this.imgDataArr.splice(limit,_this.imgDataArr.length-limit+1);
     }
 
@@ -227,6 +222,9 @@ export default class CanvasImgSwitch {
         this.paintImg(src).then(() => {
             this.canvas.width = this.conf.width;
             this.canvas.height = this.conf.height;
+            if(_this.conf.retina){
+                _this.canvas.setAttribute("style","transform:scale(0.5,0.5)");
+            }
             this.animateParticleArr = [];
             _this.context.clearRect(0, 0, _this.conf.width, _this.conf.height);
             this.context.fillStyle = '#fff';
